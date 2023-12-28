@@ -4,8 +4,15 @@
       "bookName": "Девушка в поезде",
       "bookAuthor": "Пола Хокинс",
       "bookImg": "https://img3.labirint.ru/rc/0eaf9924dcce0292b0f1ae341879ae67/363x561q80/books53/524583/cover.jpg?1613395544",
-      "bookPrice": "2500",
+      "bookPrice": "4500",
       "id": 1
+    },
+    {
+      "bookName": "Шерклок Холмс",
+      "bookAuthor": "Артур Конан Дойл",
+      "bookImg": "https://img3.labirint.ru/rc/97ce2a8d0cd80d6546520015888c3462/363x561q80/books54/534529/cover.jpg?1563910561",
+      "bookPrice": "5000",
+      "id": 2
     }
   ]
 }

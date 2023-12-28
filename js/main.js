@@ -73,3 +73,46 @@ document.addEventListener("click", (e) => {
     }).then(() => readBooks());
   }
 });
+//! ===========================EDIT============================
+let editInpName = document.querySelector("#editInpName");
+let editInpAuthor = document.querySelector("#editInpAuthor");
+let editInpImg = document.querySelector("#editInpImg");
+let editInpPrice = document.querySelector("#editInpPrice");
+let editBtnSave = document.querySelector("#editBtnSave");
+document.addEventListener("click", (e) => {
+  let edit_class = [...e.target.classList];
+  if (edit_class.includes("btnEdit")) {
+    let id = e.target.id;
+    fetch(`${API}/${id}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        editInpName.value = data.bookName;
+        editInpAuthor.value = data.bookAuthor;
+        editInpImg.value = data.bookImg;
+        editInpPrice.value = data.bookPrice;
+        editBtnSave.setAttribute("id", data.id);
+      });
+  }
+});
+
+editBtnSave.addEventListener("click", () => {
+  let editedBook = {
+    bookName: editInpName.value,
+    bookAuthor: editInpAuthor.value,
+    bookImg: editInpImg.value,
+    bookPrice: editInpPrice.value,
+  };
+  editBook(editedBook, editBtnSave.id);
+});
+
+function editBook(editBook, id) {
+  fetch(`${API}/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(editBook),
+  }).then(() => readBooks());
+}
