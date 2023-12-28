@@ -1,0 +1,5 @@
+.cardBook:hover {
+  transform: scale(1.05);
+  transition: 0.5s;
+  box-shadow: 0px 0px 23px 0px rgba(34, 60, 80, 0.4);
+}
