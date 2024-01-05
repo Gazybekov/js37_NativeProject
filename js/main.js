@@ -6,7 +6,12 @@ let inpPrice = document.querySelector("#inpPrice");
 let btnAdd = document.querySelector("#btnAdd");
 let sectionBooks = document.querySelector("#sectionBooks");
 let btnOpenForm = document.querySelector("#collapseThree");
-
+let inpSearch = document.querySelector("#inpSearch");
+let searchValue = "";
+let countPage = 1;
+let currentPage = 1;
+let prevBtn = document.querySelector("#prevBtn");
+let nextBtn = document.querySelector("#nextBtn");
 btnAdd.addEventListener("click", () => {
   if (
     !inpName.value.trim() ||
@@ -42,9 +47,10 @@ function createBook(book) {
   btnOpenForm.classList.toggle("show");
 }
 //! =======================READ===================
-async function readBooks() {
-  const res = await fetch(API);
+async function readBooks(test = currentPage) {
+  const res = await fetch(`${API}?q=${searchValue}&_page=${test}&_limit=3`);
   const data = await res.json();
+
   sectionBooks.innerHTML = "";
   data.forEach((elem) => {
     sectionBooks.innerHTML += `
@@ -60,6 +66,8 @@ async function readBooks() {
   </div>
     `;
   });
+
+  pageFunc();
 }
 readBooks();
 
@@ -116,3 +124,42 @@ function editBook(editBook, id) {
     body: JSON.stringify(editBook),
   }).then(() => readBooks());
 }
+
+//! =================SEARCH====================
+let test = currentPage;
+inpSearch.addEventListener("input", (e) => {
+  searchValue = e.target.value.trim();
+});
+inpSearch.addEventListener("input", () => {
+  if (!searchValue) {
+    readBooks(test);
+    currentPage = 1;
+    console.log(currentPage);
+  } else {
+    let test = currentPage;
+    readBooks(test);
+  }
+});
+//! =========================PAGINATION===================
+function pageFunc() {
+  fetch(API)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      countPage = Math.ceil(data.length / 3);
+    });
+}
+prevBtn.addEventListener("click", () => {
+  if (currentPage <= 1) return;
+  currentPage--;
+  test++;
+  readBooks();
+});
+
+nextBtn.addEventListener("click", () => {
+  if (currentPage >= countPage) return;
+  currentPage++;
+  test++;
+  readBooks();
+});
